@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Streaming</title>
+    <link rel="stylesheet" th:href=@{https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css} />
+    <!-- i will provide this in description  -->
+    <link rel="stylesheet" th:href=@{/css/slick.css} />
+    <link rel="stylesheet" th:href=@{/css/slick-theme.css} />
+    <link rel="stylesheet" th:href=@{/css/owl.carousel.min.css} />
+    <link rel="stylesheet" th:href=@{/css/animate.min.css} />
+    <link rel="stylesheet" th:href=@{/css/magnific-popup.css} />
+    <link rel="stylesheet" th:href=@{/css/select2.min.css} />
+    <link rel="stylesheet" th:href=@{/css/select2-bootstrap4.min.css} />
+    
+        <link rel="stylesheet" th:href=@{/css/bootstrap.min.css} />
+    
+
+    <link rel="stylesheet" th:href=@{css/slick-animation.css} />
+    <link rel="stylesheet" th:href=@{/css/style.css} />
+    <link rel="stylesheet" th:href=@{/css/styleDev.css} />
+
+    <style>
+        .custom_scrollbar {
+            position: relative;
+            width: 1000px;
+            height: 500px;
+            overflow: auto;
+        }
+        
+        .text-wrapper-scroll-y {
+            display: block;
+        }
+        
+        .small-check{
+        	padding: 0px!important;
+        	margin-bottom: 20px!important;
+        	width: 100% !important;
+        	height: 100% !important;
+        }
+    </style>
+    <script>
+        function alertFunc(msg) {
+            alert(msg);
+        }
+    </script>
+
+</head>
+
+<body ng-app="myAppAdmin" ng-controller="myAppController as vm">
+    <div th:if="${msg}!=null" th:onload="alertFunc(${msg})"></div>
+    <header id="main-header">
+        <div class="main-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <nav class="navbar navbar-expand-lg navbar-light p-0">
+                            <!--a th:href=@{#} class="navbar-toggler c-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <div class="navbar-toggler-icon" data-toggle="collapse" th:style="'background: url(' + @{/images/menu.png} + ') no-repeat scroll center center;'">
+                                    <span class="navbar-menu-icon navbar-menu-icon--top"></span>
+                                    <span class="navbar-menu-icon navbar-menu-icon--middle"></span>
+                                    <span class="navbar-menu-icon navbar-menu-icon--bottom"></span>
+                                </div>
+                            </a-->
+                            <a th:href=@{#} class="navbar-brand">
+                                <img th:src=@{/images/logo.png} class="img-fluid logo" alt="" />
+                            </a>
+
+                            <div class="mobile-more-menu">
+                                <a th:href=@{#} onclick="javascript:void(0);" class="more-toggle" id="dropdownMenuButton" data-toggle="more-toggle" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </a>
+
+
+
+                                <div class="more-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="navbar-right position-relative">
+                                        <ul class="d-flex align-items-center justify-content-end list-inline m-0">
+
+                                            <li>
+
+                                                <a th:href="@{#}" class="iq-user-dropdown search-toggle d-flex align-items-center">
+                                                    <p th:if="${name} != null" th:text="${name}"></p>
+                                                </a>
+                                                <div class="iq-sub-dropdown iq-user-dropdown">
+                                                    <div class="iq-card shadow-none m-0">
+                                                        <div class="iq-card-body p-0 pl-3 pr-3">
+
+                                                            <a th:href="@{#}" class="iq-sub-card setting-dropdown" th:if="${name} != null">
+                                                                <div class="media align-items-center">
+                                                                    <div class="right-icon">
+                                                                        <i class="fa fa-user text-primary"></i>
+                                                                    </div>
+                                                                    <div class="media-body ml-3">
+                                                                        <form action="logout" method="post">
+                                                                            <input type="submit" value="Log Out" class="mb-0" />
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="navbar-right menu-right" th:if="${name} != null">
+                                <ul class="d-flex align-items-center list-inline m-0">
+
+                                    <li class="nav-item nav-icon">
+                                        <a th:href="@{#}" class="iq-user-dropdown search-toggle d-flex align-items-center">
+                                            <!-- img th:src=@{/images/user/user.png} class="img-fluid user-m rounded-circle" alt="" /-->
+                                            <p th:if="${name} != null" th:text="${name}"></p>
+                                        </a>
+                                        <div class="iq-sub-dropdown iq-user-dropdown" th:if="${name} != null">
+                                            <div class="iq-card shadow-none m-0">
+                                                <div class="iq-card-body p-0 pl-3 pr-3">
+                                                    <a th:href="@{#}" class="iq-sub-card setting-dropdown">
+                                                        <div class="media align-items-center">
+                                                            <div class="right-icon">
+                                                                <i class="fa fa-user text-primary"></i>
+                                                            </div>
+                                                            <div class="media-body ml-3">
+                                                                <form action="logout" method="post">
+                                                                    <input type="submit" value="Log Out" class="mb-0" />
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                        <div class="nav-overlay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="p-0">
+        <div class="content m-20 p-0">
+            <div>
+                <button class="btn btn-primary btn-active" ng-click="vm.getAllUsers()">Users</button>
+            </div>
+            <div>
+                <button class="btn btn-primary" ng-click="vm.getAllContents()">Content</button>
+            </div>
+            <div>
+                <button class="btn btn-primary"  data-target="#addContentModel" data-toggle="modal">Add Content</button>
+            </div>
+           
+        </div>
+        <div class="content m-20 p-0">
+            <input type="text" name="search" ng-model="search" placeholder="Type to Search.." />
+        </div>
+        <div class="content_table table-responsive text-wrapper-scroll-y custom_scrollbar">
+            <table border="1" class="table table-bordered table-striped w-auto table-hover table-fixed h-100">
+                <thead class="thead-dark sticky-top">
+                    <tr>
+                        <th ng-repeat="column in vm.columns">
+                            {{column}}
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody ng-if="vm.no_of_columns == 5">
+                    <tr ng-repeat="c in vm.contents | filter : search">
+                        <td>{{c.firstName}}&nbsp;{{c.lastName}}</td>
+                        <td>{{c.mailId}}</td>
+                        <td>{{c.phoneNo}}</td>
+                        <td>{{c.password}}</td>
+                        <td>
+                        	<button class="btn btn-primary" ng-click="vm.removeUser(c.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody ng-if="vm.no_of_columns == 12">
+                    <tr ng-repeat="c in vm.contents | filter : search">
+                        <td>{{c.movie}}</td>
+                        <td>{{c.year}}</td>
+                        <td>{{c.runtime}}</td>
+                        <td>{{c.genre}}</td>
+                        <td>{{c.ratings}}</td>
+                        <td><img src="{{c.coverImg}}" alt="" /></td>
+                        <td>{{c.categoryName}}</td>
+                        <td>{{c.hotstar}}</td>
+                        <td>{{c.amazonPrime}}</td>
+                        <td>{{c.netflix}}</td>
+                        
+                        <td>
+                        	<button class="edit btn btn-primary" data-target="#editContentModel" data-toggle="modal" id="{{c.contentId}}" ng-click="vm.getContent(c.contentId)">Edit</button>
+                        </td>
+                        <td>
+                        	<button class="btn btn-primary" ng-click="vm.removeContent(c.contentId)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <div class="modal" id="addContentModel">
+        <div class="modal-dialog modal-dialog-centered">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h2 class="text-center" style="color: rgb(14, 14, 190);">Add Content</h2>
+                     <button type="button" class="close" data-dismiss="modal"> &times; </button>
+                  </div>
+                  <form action="login/addContent" method="post">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="text" name="movie" id="movie" class="form-control input" placeholder="Enter Movie Name" onchange="checkInput(this)" required>
+                            </div>
+                            <div class="form-group" style="color: black;">
+                            	<select class="form-select" name="category" required>
+                            		<option selected disabled>---Select a Category---</option>
+                            		<option value="1">Bollywood</option>
+                            		<option value="2">Hollywood</option>
+                            		<option value="3">TV Series</option>
+                            	</select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="year" id="year" class="form-control input" placeholder="Enter Year of Release" onchange="checkYear(this)" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="runtime" id="runtime" class="form-control input" placeholder="Enter Run Time of the movie(in minutes)" onchange="checkRunTime(this)" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="genre" id="genre" class="form-control input" placeholder="Enter Genre(Comma-separated)" onchange="checkInput(this)" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="ratings" id="ratings" class="form-control input" placeholder="Enter the Ratings" onchange="checkRating(this)" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="description" rows="10" cols="50" id="description" class="form-control input" onchange="checkInput(this)" placeholder="Enter the description" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="cover_img" id="cover_img" class="form-control input" onchange="checkInput(this)" placeholder="Enter the cover image link" required>
+                            </div>
+                            <div class="form-group" style="color: black;">
+                            	<label>Hotstar:</label>
+                            	<div class="form-check">
+                            		<input type="radio" class="form-check-input small-check" name="hotstar" value="Yes" ng-checked="vm.content.hotstar == 'Yes'" required/>
+                            		<label class="form-check-label">YES</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="radio" class="form-check-input small-check" name="hotstar" value="No" ng-checked="vm.content.hotstar == 'No'" required/>
+                            		<label class="form-check-label">NO</label>
+                            	</div>
+                            </div>
+                            <div class="form-group" style="color: black;">
+                            	<label>Amazon Prime:</label>
+                            	<div class="form-check">
+                            		<input type="radio" class="form-check-input small-check" name="amazonPrime" value="Yes" ng-checked="vm.content.amazonPrime == 'Yes'" required/>
+                            		<label class="form-check-label">YES</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="radio" class="form-check-input small-check" name="amazonPrime" value="No" ng-checked="vm.content.amazonPrime == 'No'" required/>
+                            		<label class="form-check-label">NO</label>
+                            	</div>
+                            </div>
+                            <div class="form-group" style="color: black;">
+                            	<label>Netflix:</label>
+                            	<div class="form-check">
+                            		<input type="radio" class="form-check-input small-check" name="netflix" value="Yes" ng-checked="vm.content.netflix == 'Yes'" required/>
+                            		<label class="form-check-label">YES</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="radio" class="form-check-input small-check" name="netflix" value="No" ng-checked="vm.content.netflix == 'No'" required/>
+                            		<label class="form-check-label">NO</label>
+                            	</div>
+                            </div>
+                            
+                            
+
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="submit" class="btn btn-danger" data-diamiss="modal">Add</button>
+                        </div>
+                 </form>
+             </div>
+
+         </div>
+    </div>
+    
+
+
+    
+    
+    
+    <div class="modal" id="editContentModel">
+        <div class="modal-dialog modal-dialog-centered">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h2 class="text-center" style="color: rgb(14, 14, 190);">Edit Content With ID {{vm.content.contentId}}</h2>
+                     <button type="button" class="close" data-dismiss="modal"> &times; </button>
+                  </div>
+                  <form action="login/editContent" method="post">
+                        <div class="modal-body">
+                        	<div class="form-group">
+                        		<input type="hidden" name="content_id" class="content_id" value="{{vm.content.contentId}}" />
+                        	</div>
+                            <div class="form-group" style="color: black;">
+                                <div>Movie Name: {{vm.content.movie}}</div>
+                            </div>
+                            <div class="form-group" style="color: black;">
+                            	<div>Category: {{vm.content.categoryName}}</div>
+                            </div>
+                            <div class="form-group" style="color: black;">
+                            	<div>Year of Release: {{vm.content.year}}</div>
+                            </div>
+                            <div class="form-group"  style="color: black;">
+                            	<div>Runtime: {{vm.content.runtime}}</div>
+                            </div>
+                            <div class="form-group" style="color: black;">
+                            	<div>Genre: {{vm.content.genre}}</div>
+                            </div>
+                            <div class="form-group">
+                            	<label style="color: black;">Edit Rating: </label>
+                                <input type="text" name="ratings_edit" id="ratings_edit" value="{{vm.content.ratings}}" class="form-control input" onchange="checkRating(this)" required>
+                            </div>
+                            <div class="form-group">
+                            	<label  style="color: black;">Edit Description: </label>
+                                <textarea name="description_edit" rows="10" cols="50" id="description_edit" class="form-control input" onchange="checkInput(this)" required>{{vm.content.description}}</textarea>
+                            </div>
+                            <div class="form-group">
+                            	<label style="color: black;">Edit Cover Image Link: </label>
+                                <input type="text" name="cover_img_edit" id="cover_img_edit" value="{{vm.content.coverImg}}" class="form-control input" onchange="checkInput(this)" required>
+                            </div>
+                            <div class="form-group" style="color: black;">
+                            	<label>Hotstar:</label>
+                            	<div class="form-check">
+                            		<input type="radio" class="form-check-input small-check" name="hotstar_edit" value="Yes" ng-checked="vm.content.hotstar == 'Yes'" required/>
+                            		<label class="form-check-label">YES</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="radio" class="form-check-input small-check" name="hotstar_edit" value="No" ng-checked="vm.content.hotstar == 'No'" required/>
+                            		<label class="form-check-label">NO</label>
+                            	</div>
+                            </div>
+                            <div class="form-group" style="color: black;">
+                            	<label>Amazon Prime:</label>
+                            	<div class="form-check">
+                            		<input type="radio" class="form-check-input small-check" name="amazonPrime_edit" value="Yes" ng-checked="vm.content.amazonPrime == 'Yes'" required/>
+                            		<label class="form-check-label">YES</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="radio" class="form-check-input small-check" name="amazonPrime_edit" value="No" ng-checked="vm.content.amazonPrime == 'No'" required/>
+                            		<label class="form-check-label">NO</label>
+                            	</div>
+                            </div>
+                            <div class="form-group" style="color: black;">
+                            	<label>Netflix:</label>
+                            	<div class="form-check">
+                            		<input type="radio" class="form-check-input small-check" name="netflix_edit" value="Yes" ng-checked="vm.content.netflix == 'Yes'" required/>
+                            		<label class="form-check-label">YES</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="radio" class="form-check-input small-check" name="netflix_edit" value="No" ng-checked="vm.content.netflix == 'No'" required/>
+                            		<label class="form-check-label">NO</label>
+                            	</div>
+                            </div>
+                            
+
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="submit" class="btn btn-danger" data-diamiss="modal">Edit</button>
+                        </div>
+                 </form>
+             </div>
+
+         </div>
+    </div>
+    
+
+
+
+    <footer class="iq-bg-dark">
+        <div class="footer-top">
+            <div class="container-fluid">
+                <div class="row footer-standard">
+                    <div class="col-lg-5">
+                        <div class="widget text-left">
+                            <div>
+                                <ul class="menu p-0">
+                                    <li><a th:href="@{#}">Terms of Use</a></li>
+                                    <li><a th:href="@{#}">Privacy-Policy</a></li>
+                                    <li><a th:href="@{#}">FAQ</a></li>
+                                    <li><a th:href="@{#}">Watch List</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="widget text-left">
+                            <div class="textwidget">
+                                <p><small>This is Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati,
+                                        quo tempore.
+                                        Quasi rem rerum est in nulla atque quibusdam illo. this is footer and simple
+                                        tsesxij is writen jkd.
+                                        fsek hello how are you. please like and subscribe. footer ends .</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mt-4 mt-lg-0">
+                        <h6 class="footer-link-title">
+                            Follow Us:
+                        </h6>
+                        <ul class="info-share">
+                            <li>
+                                <a th:href="@{#}">
+                                    <i>
+                                        <fa class="fa fa-facebook"></fa>
+                                     </i>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{#}">
+                                    <i>
+                                        <fa class="fa fa-youtube"></fa>
+                                     </i>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{#}">
+                                    <i>
+                                        <fa class="fa fa-instagram"></fa>
+                                    </i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mt-4 mt-lg-0">
+                        <div class="widget text-left">
+                            <div class="textwidget">
+                                <h6 class="footer-link-title">
+                                    NetFlix App
+                                </h6>
+                                <div class="d-flex align-items-center">
+                                    <a th:href="@{#}"><img th:src=@{/images/footer/01.jpg} alt=""></a>
+                                    <br>
+                                    <a th:href="@{#}" class="ml-3"><img th:src=@{/images/footer/02.jpg} alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- js files  -->
+    <script th:src=@{/js/jquery-3.4.1.min.js}></script>
+    <script th:src=@{/js/popper.min.js}></script>
+    <script th:src=@{https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js}></script>
+    <script th:src=@{/js/bootstrap.min.js}></script>
+    <script th:src=@{/js/slick.min.js}></script>
+    <script th:src=@{/js/owl.carousel.min.js}></script>
+    <script th:src=@{/js/select2.min.js}></script>
+    <script th:src=@{/js/jquery.magnific-popup.min.js}></script>
+    <script th:src=@{/js/slick-animation.min.js}></script>
+
+    <script th:src=@{/js/main.js}></script>
+    <script th:src=@{/js/script.js}></script>
+    <script th:src=@{/angularjs/appController.js}></script>
+</body>
+
+</html>
