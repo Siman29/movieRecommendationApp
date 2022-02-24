@@ -7,12 +7,12 @@ import org.springframework.stereotype.Repository;
 import com.webApp.movieRecommendationApp.entity.Users;
 
 @Repository
-public interface AppRepo extends JpaRepository<Users, Long>{
+public interface AppRepo extends JpaRepository<Users, Integer>{
 	
 	Users findByMailIdAndPassword(String emailId,String password);
 	Users findByMailId(String emailId);
 	
 	@Query("SELECT MAX(id) FROM Users")
-	Long findLastUserId();
-
+	Integer findLastUserId();
+	
 }

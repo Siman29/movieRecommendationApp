@@ -124,7 +124,7 @@ public class AppController {
 		Users user = new Users(first_name,last_name,email,phoneNo,encryptPw);
 		if(repo.findLastUserId()==null)
 		{
-			Long n = (long) 1;
+			Integer n = 1;
 			user.setId(n);
 		}else {
 			user.setId(repo.findLastUserId()+1);

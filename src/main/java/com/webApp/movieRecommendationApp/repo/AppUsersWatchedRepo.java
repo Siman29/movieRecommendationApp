@@ -1,12 +1,11 @@
 package com.webApp.movieRecommendationApp.repo;
 
-
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.webApp.movieRecommendationApp.entity.Category;
+import com.webApp.movieRecommendationApp.entity.UsersWatch;
 
 @Repository
-public interface AppCategoryRepo extends JpaRepository<Category, Integer> {
+public interface AppUsersWatchedRepo extends JpaRepository<UsersWatch, Integer>{
+
 }

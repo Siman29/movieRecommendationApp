@@ -1,5 +1,6 @@
 package com.webApp.movieRecommendationApp.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -7,10 +8,16 @@ import javax.persistence.Id;
 public class Availability {
 	
 	@Id
-	private Long id;
-	private Long contentId;
+	@Column(columnDefinition = "int(11) NOT NULL")
+	private Integer id;
+	
+	@Column(columnDefinition="enum('Yes','No') NOT NULL")
 	private String hotstar;
+	
+	@Column(columnDefinition="enum('Yes','No') NOT NULL")
 	private String amazonPrime;
+	
+	@Column(columnDefinition="enum('Yes','No') NOT NULL")
 	private String netflix;
 	
 	
@@ -18,25 +25,18 @@ public class Availability {
 	public Availability() {
 		
 	}
-	public Availability(Long id, Long contentId, String hotstar, String amazonPrime, String netflix) {
+	public Availability(Integer id, String hotstar, String amazonPrime, String netflix) {
 		super();
 		this.id = id;
-		this.contentId = contentId;
 		this.hotstar = hotstar;
 		this.amazonPrime = amazonPrime;
 		this.netflix = netflix;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
-	}
-	public Long getContentId() {
-		return contentId;
-	}
-	public void setContentId(Long contentId) {
-		this.contentId = contentId;
 	}
 	public String getHotstar() {
 		return hotstar;

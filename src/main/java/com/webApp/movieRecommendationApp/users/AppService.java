@@ -44,13 +44,13 @@ public class AppService {
 	public final Model getContents(Model m)
 	{
 		int i,j;
-		Long categoryId;
+		Integer categoryId;
 		String[] categories = new String[]{"Bollywood","Hollywood","TVSeries"};
 		List<Category> category = categoryRepo.findAll();
 		for(i=0;i<categoryRepo.count();i++)
 		{
 			categoryId = category.get(i).getId();
-			List<CategoryContentAvailabilityDto> contents = contentRepo.fetchCategoryContentAvailabilityByCategoryId(categoryId);
+			List<CategoryContentAvailabilityDto> contents = getContent();
 			List<CategoryContentAvailabilityDto> content = new ArrayList<CategoryContentAvailabilityDto>();
 			Random rand = new Random();
 			for(j=0;j<5;j++)
@@ -61,4 +61,5 @@ public class AppService {
 		}
 		return m;
 	}
+	
 }

@@ -1,8 +1,17 @@
 package com.webApp.movieRecommendationApp.entity;
 
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 @Entity
@@ -11,49 +20,64 @@ public class Content {
 	
 
 	@Id
-	private Long id;
-	private Long categoryId;
+	@Column(columnDefinition = "int(11) NOT NULL")
+	private Integer id;
+	
+	
+	@Column(columnDefinition="varchar(200) NOT NULL")
 	private String movie;
+	
+	@Column(columnDefinition="varchar(100) NOT NULL")
 	private String year;
+	
+	@Column(columnDefinition="varchar(100) NOT NULL")
 	private String runtime;
-	private String genre;
+	
+	@Column(columnDefinition="varchar(100) NOT NULL")
 	private String ratings;
+	
+	@Column(columnDefinition="text NOT NULL")
 	private String description;
+	
+	@Column(columnDefinition="text NOT NULL")
 	private String coverImg;
 	
-	/*@OneToOne(targetEntity=Availability.class ,cascade=CascadeType.ALL)
-	@JoinColumn(name="cont_avail_fk", referencedColumnName = "id")
-	private List<Availability> availabilty;*/
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id")
+	private Category category;
 	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="availability_id")
+	private Availability availabilty;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="genre_id")
+	private Genre genre;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "content")
+	private List<UsersWatch> usersWatched;
 	
 	
 	public Content() {}
 	
-	public Content(Long id, Long categoryId, String movie, String year, String runtime, String genre,
+	public Content(Integer id, String movie, String year, String runtime,
 			String ratings, String description, String coverImg) {
 		super();
 		this.id = id;
-		this.categoryId = categoryId;
 		this.movie = movie;
 		this.year = year;
 		this.runtime = runtime;
-		this.genre = genre;
 		this.ratings = ratings;
 		this.description = description;
 		this.coverImg = coverImg;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Long getCategoryId() {
-		return categoryId;
-	}
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
-	}
+	
 	public String getMovie() {
 		return movie;
 	}
@@ -71,12 +95,6 @@ public class Content {
 	}
 	public void setRuntime(String runtime) {
 		this.runtime = runtime;
-	}
-	public String getGenre() {
-		return genre;
-	}
-	public void setGenre(String genre) {
-		this.genre = genre;
 	}
 	public String getRatings() {
 		return ratings;
@@ -96,11 +114,39 @@ public class Content {
 	public void setCoverImg(String coverImg) {
 		this.coverImg = coverImg;
 	}
-	/*public List<Availability> getAvailabilty() {
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Availability getAvailabilty() {
 		return availabilty;
 	}
-	public void setAvailabilty(List<Availability> availabilty) {
+
+	public void setAvailabilty(Availability availabilty) {
 		this.availabilty = availabilty;
-	}*/
+	}
+
+	public Genre getGenre() {
+		return genre;
+	}
+
+	public void setGenre(Genre genre) {
+		this.genre = genre;
+	}
+
+	public List<UsersWatch> getUsersWatched() {
+		return usersWatched;
+	}
+
+	public void setUsersWatched(List<UsersWatch> usersWatched) {
+		this.usersWatched = usersWatched;
+	}
+	
+	
 	
 }

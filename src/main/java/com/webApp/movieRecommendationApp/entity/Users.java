@@ -1,20 +1,41 @@
 package com.webApp.movieRecommendationApp.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 //import javax.persistence.GeneratedValue;
 //import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Users {
 	
 	@Id
-	private Long id;
+	@Column(columnDefinition = "int(11) NOT NULL")
+	private Integer id;
+	
+	@Column(columnDefinition="varchar(255) NOT NULL")
 	private String firstName;
+	
+	@Column(columnDefinition="varchar(255) NOT NULL")
 	private String lastName;
+	
+	@Column(columnDefinition="varchar(255) NOT NULL")
 	private String mailId;
+	
+	@Column(columnDefinition="bigint(20) NOT NULL")
 	private Long phoneNo;
+	
+	@Column(columnDefinition="varchar(255) NOT NULL")
 	private String password;
+	
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private List<UsersWatch> watched;
+	
 	
 	public Users() {}
 	
@@ -28,11 +49,11 @@ public class Users {
 	}
 	
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -71,6 +92,16 @@ public class Users {
 		return "Users [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", mailId=" + mailId
 				+ ", phoneNo=" + phoneNo + ", password=" + password + "]";
 	}
+
+	public List<UsersWatch> getWatched() {
+		return watched;
+	}
+
+	public void setWatched(List<UsersWatch> watched) {
+		this.watched = watched;
+	}
+	
+	
 	
 	
 

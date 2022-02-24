@@ -1,15 +1,12 @@
 package com.webApp.movieRecommendationApp.dto;
 
-import java.util.List;
 
-public class CategoryContentAvailabilityDto {
+public class ContentAvailabilityDto {
 	
-	private Long contentId;
-	private String categoryName;
+	private Integer contentId;
 	private String movie;
 	private String year;
 	private String runtime;
-	private List<String> genre;
 	private String ratings;
 	private String description;
 	private String coverImg;
@@ -18,17 +15,13 @@ public class CategoryContentAvailabilityDto {
 	private String netflix;
 	
 	
-	
-	public CategoryContentAvailabilityDto(Long contentId, String categoryName, String movie, String year,
-			String runtime, List<String> genre, String ratings, String description, String coverImg, String hotstar,
-			String amazonPrime, String netflix) {
+	public ContentAvailabilityDto(Integer contentId, String movie, String year, String runtime, String ratings,
+			String description, String coverImg, String hotstar, String amazonPrime, String netflix) {
 		super();
 		this.contentId = contentId;
-		this.categoryName = categoryName;
 		this.movie = movie;
 		this.year = year;
 		this.runtime = runtime;
-		this.genre = genre;
 		this.ratings = ratings;
 		this.description = description;
 		this.coverImg = coverImg;
@@ -36,17 +29,11 @@ public class CategoryContentAvailabilityDto {
 		this.amazonPrime = amazonPrime;
 		this.netflix = netflix;
 	}
-	public Long getContentId() {
+	public Integer getContentId() {
 		return contentId;
 	}
-	public void setContentId(Long contentId) {
+	public void setContentId(Integer contentId) {
 		this.contentId = contentId;
-	}
-	public String getCategoryName() {
-		return categoryName;
-	}
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
 	}
 	public String getMovie() {
 		return movie;
@@ -65,12 +52,6 @@ public class CategoryContentAvailabilityDto {
 	}
 	public void setRuntime(String runtime) {
 		this.runtime = runtime;
-	}
-	public List<String> getGenre() {
-		return genre;
-	}
-	public void setGenre(List<String> genre) {
-		this.genre = genre;
 	}
 	public String getRatings() {
 		return ratings;
@@ -108,6 +89,8 @@ public class CategoryContentAvailabilityDto {
 	public void setNetflix(String netflix) {
 		this.netflix = netflix;
 	}
+	
+	
 	
 	
 
