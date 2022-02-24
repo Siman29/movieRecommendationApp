@@ -34,16 +34,33 @@ public interface AppContentRepo extends JpaRepository<Content, Integer>
 			+ "Content c INNER JOIN Category ca ON c.category.id = ca.id")
 	public List<CategoryContentDto> fetchCategoryContentJoin();
 	
+	@Query("SELECT new com.webApp.movieRecommendationApp.dto.CategoryContentDto(c.id,ca.title) FROM "
+			+ "Content c INNER JOIN Category ca ON c.category.id = ca.id WHERE c.id = ?1")
+	public CategoryContentDto fetchCategoryContentJoinById(Integer id);
+	
 	@Query("SELECT new com.webApp.movieRecommendationApp.dto.ContentAvailabilityDto(c.id,c.movie,c.year,c.runtime,\r\n"
 			+"c.ratings,c.description,c.coverImg,a.hotstar,a.amazonPrime,a.netflix) FROM"
 			+ "Content c INNER JOIN Availability a ON c.availability.id = a.id")
 	public List<ContentAvailabilityDto> fetchContentAndAvailabilityJoin();
+	
+	@Query("SELECT new com.webApp.movieRecommendationApp.dto.ContentAvailabilityDto(c.id,c.movie,c.year,c.runtime,\r\n"
+			+"c.ratings,c.description,c.coverImg,a.hotstar,a.amazonPrime,a.netflix) FROM"
+			+ "Content c INNER JOIN Availability a ON c.availability.id = a.id WHERE c.id = ?1")
+	public ContentAvailabilityDto fetchContentAndAvailabilityJoinById(Integer id);
+	
 	
 	@Query("SELECT new com.webApp.movieRecommendationApp.dto.ContentGenreDto(c.id,g.comedy,g.drama,g.romance,g.action,g.sci_fi,\r\n"
 			+ "g.adventure,g.thriller,g.history,g.crime,g.mystery,g.biography,\r\n"
 			+ "g.musical,g.horror,g.western,g.war,g.fantasy) FROM"
 			+ "Content c INNER JOIN Genre g ON c.genre.id = g.id")
 	public List<ContentGenreDto> fetchContentGenreJoin();
+	
+	@Query("SELECT new com.webApp.movieRecommendationApp.dto.ContentGenreDto(c.id,g.comedy,g.drama,g.romance,g.action,g.sci_fi,\r\n"
+			+ "g.adventure,g.thriller,g.history,g.crime,g.mystery,g.biography,\r\n"
+			+ "g.musical,g.horror,g.western,g.war,g.fantasy) FROM"
+			+ "Content c INNER JOIN Genre g ON c.genre.id = g.id WHERE c.id = ?1")
+	public ContentGenreDto fetchContentGenreJoinById(Integer id);
+	
 	
 	
 	

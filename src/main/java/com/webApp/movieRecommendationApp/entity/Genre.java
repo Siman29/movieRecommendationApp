@@ -84,6 +84,10 @@ public class Genre {
 		this.fantasy = fantasy;
 	}
 
+	public Genre() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Integer getId() {
 		return id;
 	}

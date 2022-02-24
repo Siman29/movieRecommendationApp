@@ -23,7 +23,7 @@ public class Availability {
 	
 	
 	public Availability() {
-		
+		super();
 	}
 	public Availability(Integer id, String hotstar, String amazonPrime, String netflix) {
 		super();

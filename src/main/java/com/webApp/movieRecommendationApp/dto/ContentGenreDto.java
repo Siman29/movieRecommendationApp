@@ -24,6 +24,10 @@ public class ContentGenreDto {
 	
 	
 	
+	public ContentGenreDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public ContentGenreDto(Integer contentId, Integer comedy, Integer drama, Integer romance, Integer action,
 			Integer sci_fi, Integer adventure, Integer thriller, Integer history, Integer crime, Integer mystery,
 			Integer biography, Integer musical, Integer horror, Integer western, Integer war, Integer fantasy) {

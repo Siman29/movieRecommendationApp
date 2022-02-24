@@ -7,6 +7,10 @@ public class CategoryContentDto {
 	
 	
 	
+	public CategoryContentDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public CategoryContentDto(Integer contentId, String categoryName) {
 		super();
 		this.contentId = contentId;

@@ -9,4 +9,6 @@ import com.webApp.movieRecommendationApp.entity.Category;
 
 @Repository
 public interface AppCategoryRepo extends JpaRepository<Category, Integer> {
+	
+	
 }

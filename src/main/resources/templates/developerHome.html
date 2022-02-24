@@ -189,7 +189,11 @@
                         <td>{{c.movie}}</td>
                         <td>{{c.year}}</td>
                         <td>{{c.runtime}}</td>
-                        <td>{{c.genre}}</td>
+                        <td>
+                        	<p ng-repeat="g in c.genre">
+                        		{g}}
+                        	</p>
+                        </td>
                         <td>{{c.ratings}}</td>
                         <td><img src="{{c.coverImg}}" alt="" /></td>
                         <td>{{c.categoryName}}</td>
@@ -236,6 +240,71 @@
                                 <input type="text" name="runtime" id="runtime" class="form-control input" placeholder="Enter Run Time of the movie(in minutes)" onchange="checkRunTime(this)" required>
                             </div>
                             <div class="form-group">
+                            	<label>Genre</label>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="comedy"/>
+                            		<label class="form-check-label">comedy</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="drama"/>
+                            		<label class="form-check-label">drama</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="romance"/>
+                            		<label class="form-check-label">romance</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="action"/>
+                            		<label class="form-check-label">action</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="sci_fi"/>
+                            		<label class="form-check-label">sci_fi</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="adventure"/>
+                            		<label class="form-check-label">adventure</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="thriller"/>
+                            		<label class="form-check-label">thriller</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="history"/>
+                            		<label class="form-check-label">history</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="crime"/>
+                            		<label class="form-check-label">crime</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="mystery"/>
+                            		<label class="form-check-label">mystery</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="biography"/>
+                            		<label class="form-check-label">biography</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="musical"/>
+                            		<label class="form-check-label">musical</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="horror"/>
+                            		<label class="form-check-label">horror</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="western"/>
+                            		<label class="form-check-label">western</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="war"/>
+                            		<label class="form-check-label">war</label>
+                            	</div>
+                            	<div class="form-check">
+                            		<input type="checkbox" class="form-check-input small-check" name="genre" value="fantasy"/>
+                            		<label class="form-check-label">fantasy</label>
+                            	</div>
                                 <input type="text" name="genre" id="genre" class="form-control input" placeholder="Enter Genre(Comma-separated)" onchange="checkInput(this)" required>
                             </div>
                             <div class="form-group">

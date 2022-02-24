@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CategoryContentAvailabilityDto {
 	
-	private Long contentId;
+	private Integer contentId;
 	private String categoryName;
 	private String movie;
 	private String year;
@@ -19,7 +19,7 @@ public class CategoryContentAvailabilityDto {
 	
 	
 	
-	public CategoryContentAvailabilityDto(Long contentId, String categoryName, String movie, String year,
+	public CategoryContentAvailabilityDto(Integer contentId, String categoryName, String movie, String year,
 			String runtime, List<String> genre, String ratings, String description, String coverImg, String hotstar,
 			String amazonPrime, String netflix) {
 		super();
@@ -36,10 +36,10 @@ public class CategoryContentAvailabilityDto {
 		this.amazonPrime = amazonPrime;
 		this.netflix = netflix;
 	}
-	public Long getContentId() {
+	public Integer getContentId() {
 		return contentId;
 	}
-	public void setContentId(Long contentId) {
+	public void setContentId(Integer contentId) {
 		this.contentId = contentId;
 	}
 	public String getCategoryName() {
