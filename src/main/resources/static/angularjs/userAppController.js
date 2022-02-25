@@ -5,13 +5,14 @@
         .module('userApp', [])
         .controller('userAppController', userAppController);
 
-    userAppController.$inject = ['$http'];
+    userAppController.$inject = ['$scope','$http'];
 
-    function userAppController($http) {
+    function userAppController($scope,$http) {
         var vm = this;
         vm.contents = [];
         vm.getAllContents = getAllContents;
-        
+        var userId = document.getElementById("userId").value;
+        console.log(userId);
         init();
 
         function init() {
@@ -20,13 +21,18 @@
         
 
         function getAllContents() {
-            var url = "/login/admin/contents";
+        	var url;
+        	if(userId)
+        	{
+        		url = "/login/admin/contentsForUser/" + userId;
+            }else
+            {
+            	url = "/login/admin/contents";
+            }
             var contentsURL = $http.get(url);
             contentsURL.then(function(response) {
                 vm.contents = response.data;
             })
-        }
-    }
-    
+       }    
+	}
 })();
-

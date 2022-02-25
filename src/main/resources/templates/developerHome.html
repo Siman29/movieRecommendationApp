@@ -41,6 +41,9 @@
         	width: 100% !important;
         	height: 100% !important;
         }
+        .form-check-label{
+        	color: black;
+        }
     </style>
     <script>
         function alertFunc(msg) {
@@ -177,7 +180,11 @@
                         <td>{{c.firstName}}&nbsp;{{c.lastName}}</td>
                         <td>{{c.mailId}}</td>
                         <td>{{c.phoneNo}}</td>
-                        <td>{{c.password}}</td>
+                        <td>
+                        	<p ng-repeat="w in c.watched">
+                        		{{w}}
+                        	</p>
+                        </td>
                         <td>
                         	<button class="btn btn-primary" ng-click="vm.removeUser(c.id)">Delete</button>
                         </td>
@@ -191,7 +198,7 @@
                         <td>{{c.runtime}}</td>
                         <td>
                         	<p ng-repeat="g in c.genre">
-                        		{g}}
+                        		{{g}}
                         	</p>
                         </td>
                         <td>{{c.ratings}}</td>
@@ -220,7 +227,7 @@
                      <h2 class="text-center" style="color: rgb(14, 14, 190);">Add Content</h2>
                      <button type="button" class="close" data-dismiss="modal"> &times; </button>
                   </div>
-                  <form action="login/addContent" method="post">
+                  <form action="login/addContent" method="post" onsubmit="return checkGenre()">
                         <div class="modal-body">
                             <div class="form-group">
                                 <input type="text" name="movie" id="movie" class="form-control input" placeholder="Enter Movie Name" onchange="checkInput(this)" required>
@@ -305,7 +312,6 @@
                             		<input type="checkbox" class="form-check-input small-check" name="genre" value="fantasy"/>
                             		<label class="form-check-label">fantasy</label>
                             	</div>
-                                <input type="text" name="genre" id="genre" class="form-control input" placeholder="Enter Genre(Comma-separated)" onchange="checkInput(this)" required>
                             </div>
                             <div class="form-group">
                                 <input type="text" name="ratings" id="ratings" class="form-control input" placeholder="Enter the Ratings" onchange="checkRating(this)" required>

@@ -15,6 +15,7 @@ import com.webApp.movieRecommendationApp.dto.CategoryContentAvailabilityDto;
 import com.webApp.movieRecommendationApp.dto.CategoryContentDto;
 import com.webApp.movieRecommendationApp.dto.ContentAvailabilityDto;
 import com.webApp.movieRecommendationApp.dto.ContentGenreDto;
+import com.webApp.movieRecommendationApp.dto.UsersDto;
 import com.webApp.movieRecommendationApp.entity.*;
 
 @Service
@@ -23,10 +24,17 @@ public class AppService {
 	
 	
 	@Autowired
+	AppRepo repo;
+	
+	
+	@Autowired
 	AppCategoryRepo categoryRepo;
 
 	@Autowired
 	AppContentRepo contentRepo;
+	
+	@Autowired
+	AppUsersWatchedRepo usersWatchedRepo;
 		
 		
 	public final String encryptPassword(String password)
@@ -70,34 +78,83 @@ public class AppService {
 		}
 		return m;
 	}
+	
+	
+	public final Model getContentsForUser(Model m,Integer userId)
+	{
+		
+		int i,j;
+		String[] categories = new String[]{"Bollywood","Hollywood","TVSeries"};
+		List<Category> category = categoryRepo.findAll();
+		for(i=0;i<categoryRepo.count();i++)
+		{
+			List<CategoryContentAvailabilityDto> allContents = getAllContents();
+			List<CategoryContentAvailabilityDto> contents = new ArrayList<>();
+			for(j=0;j<allContents.size();j++)
+			{
+				if(allContents.get(j).getCategoryName().equals(category.get(i).getTitle()))
+				{
+					contents.add(allContents.get(j));
+				}
+			}
+			List<CategoryContentAvailabilityDto> content = new ArrayList<CategoryContentAvailabilityDto>();
+			Random rand = new Random();
+			List<CategoryContentAvailabilityDto> watched = getWatched(userId);
+			for(j=0;j<5;j++)
+			{
+				CategoryContentAvailabilityDto c = contents.get(rand.nextInt(contents.size()));
+				while(isPresent(watched,c))
+				{
+					c = contents.get(rand.nextInt(contents.size())); 
+				}
+				content.add(c);
+			}
+			m.addAttribute(categories[i],content);
+		}
+		return m;
+	}
+	
+	public final boolean isPresent(List<CategoryContentAvailabilityDto> contents,CategoryContentAvailabilityDto c)
+	{
+		int i;
+		for(i=0;i<contents.size();i++)
+		{
+			System.out.println(contents.get(i).getContentId() + " | " + c.getContentId());
+			if(contents.get(i).getContentId().equals(c.getContentId()))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	public final List<CategoryContentAvailabilityDto> getAllContents()
 	{
 		List<CategoryContentAvailabilityDto> contents = new ArrayList<>();
-		List<CategoryContentDto> catContent = contentRepo.fetchCategoryContentJoin();
-		List<ContentAvailabilityDto> contAvail = contentRepo.fetchContentAndAvailabilityJoin();
-		List<ContentGenreDto> contGenre = contentRepo.fetchContentGenreJoin();
+		List<Integer> contentIds = contentRepo.fetchContentId();
 		int i;
-		for(i=0;i<contAvail.size();i++)
+		for(i=0;i<contentIds.size();i++)
 		{
-			Integer contentId = catContent.get(i).getContentId();
-			String categoryName = catContent.get(i).getCategoryName();
-			String movie = contAvail.get(i).getMovie();
-			String year = contAvail.get(i).getYear();
-			String runtime = contAvail.get(i).getRuntime();
-			List<String> genre = getGenre(contGenre.get(i));
-			String ratings = contAvail.get(i).getRatings();
-			String description = contAvail.get(i).getDescription();
-			String coverImg = contAvail.get(i).getCoverImg();
-			String hotstar = contAvail.get(i).getHotstar();
-			String amazonPrime = contAvail.get(i).getAmazonPrime();
-			String netflix = contAvail.get(i).getNetflix();
+			Integer contentId = contentIds.get(i);
+			Content c = contentRepo.getById(contentId);
+			String categoryName = c.getCategory().getTitle();
+			String movie = c.getMovie();
+			String year = c.getYear();
+			String runtime = c.getRuntime();
+			List<String> genre = getGenre(c.getGenre());
+			String ratings = c.getRatings();
+			String description = c.getDescription();
+			String coverImg = c.getCoverImg();
+			Availability a = c.getAvailabilty();
+			String hotstar = a.getHotstar();
+			String amazonPrime = a.getAmazonPrime();
+			String netflix =a.getNetflix();
 			contents.add(new CategoryContentAvailabilityDto(contentId,categoryName,movie,year,runtime,genre,ratings,description,coverImg,hotstar,amazonPrime,netflix));	
 		}
 		
 		return contents;
 	}
 	
-	public final List<String> getGenre(ContentGenreDto obj)
+	public final List<String> getGenre(Genre obj)
 	{
 			List<String> genre = new ArrayList<>();
 			if(obj.getAction().intValue() == 1)
@@ -140,20 +197,19 @@ public class AppService {
 	public final CategoryContentAvailabilityDto getContent(Integer contentId)
 	{
 		CategoryContentAvailabilityDto content;
-		CategoryContentDto catContent = contentRepo.fetchCategoryContentJoinById(contentId);
-		ContentAvailabilityDto contAvail = contentRepo.fetchContentAndAvailabilityJoinById(contentId);
-		ContentGenreDto contGenre = contentRepo.fetchContentGenreJoinById(contentId);
-		String categoryName = catContent.getCategoryName();
-		String movie = contAvail.getMovie();
-		String year = contAvail.getYear();
-		String runtime = contAvail.getRuntime();
-		List<String> genre = getGenre(contGenre);
-		String ratings = contAvail.getRatings();
-		String description = contAvail.getDescription();
-		String coverImg = contAvail.getCoverImg();
-		String hotstar = contAvail.getHotstar();
-		String amazonPrime = contAvail.getAmazonPrime();
-		String netflix = contAvail.getNetflix();
+		Content c = contentRepo.getById(contentId);
+		String categoryName = c.getCategory().getTitle();
+		String movie = c.getMovie();
+		String year = c.getYear();
+		String runtime = c.getRuntime();
+		List<String> genre = getGenre(c.getGenre());
+		String ratings = c.getRatings();
+		String description = c.getDescription();
+		String coverImg = c.getCoverImg();
+		Availability a = c.getAvailabilty();
+		String hotstar = a.getHotstar();
+		String amazonPrime = a.getAmazonPrime();
+		String netflix = a.getNetflix();
 		content = new CategoryContentAvailabilityDto(contentId,categoryName,movie,year,runtime,genre,ratings,description,coverImg,hotstar,amazonPrime,netflix);	
 		
 		return content;
@@ -217,4 +273,74 @@ public class AppService {
 		genre = new Genre(genreId,comedy,drama,romance,action,sci_fi,adventure,thriller,history,crime,mystery,biography,musical,horror,western,war,fantasy);
 		return genre;
 	}
+	
+	public final List<UsersDto> getAllUsers()
+	{
+		List<UsersDto> usersDto = new ArrayList<>();
+		List<Users> users = repo.findAll();
+		int i,j;
+		for(i=0;i<users.size();i++)
+		{
+			Users u = users.get(i);
+			List<String> watched = new ArrayList<>();
+			List<UsersWatch> usersWatched = usersWatchedRepo.findByUserId(u.getId());
+			for(j=0;j<usersWatched.size();j++)
+			{
+				watched.add(usersWatched.get(j).getContent().getMovie());
+			}
+			usersDto.add(new UsersDto(u.getId(),u.getFirstName(),u.getLastName(),u.getMailId(),u.getPhoneNo(),u.getPassword(),watched));
+		}
+		return usersDto;
+	}
+	
+	public final List<CategoryContentAvailabilityDto> getWatched(Integer userId)
+	{
+		List<CategoryContentAvailabilityDto> contents = new ArrayList<>();
+		List<UsersWatch> watched = usersWatchedRepo.findByUserId(userId);
+		int i;
+		for(i=0;i<watched.size();i++)
+		{
+			contents.add(getContent(watched.get(i).getContent().getId()));
+		}
+		return contents;
+	}
+
+	public List<CategoryContentAvailabilityDto> getAllContentsForUser(Integer userId) 
+	{
+		List<CategoryContentAvailabilityDto> watched = getWatched(userId);
+		List<CategoryContentAvailabilityDto> contents = new ArrayList<>();
+		List<Integer> contentIds = contentRepo.fetchContentId();
+		int i;
+		for(i=0;i<contentIds.size();i++)
+		{
+			Integer contentId = contentIds.get(i);
+			Content c = contentRepo.getById(contentId);
+			String categoryName = c.getCategory().getTitle();
+			String movie = c.getMovie();
+			String year = c.getYear();
+			String runtime = c.getRuntime();
+			List<String> genre = getGenre(c.getGenre());
+			String ratings = c.getRatings();
+			String description = c.getDescription();
+			String coverImg = c.getCoverImg();
+			Availability a = c.getAvailabilty();
+			String hotstar = a.getHotstar();
+			String amazonPrime = a.getAmazonPrime();
+			String netflix =a.getNetflix();
+			CategoryContentAvailabilityDto cont = new CategoryContentAvailabilityDto(contentId,categoryName,movie,year,runtime,genre,ratings,description,coverImg,hotstar,amazonPrime,netflix);
+			int j,flag = 0;
+			for(j=0;j<watched.size();j++)
+			{
+				if(isPresent(watched,cont))
+				{
+					flag = 1;
+				}
+			}
+			if(flag == 0)
+			{
+				contents.add(cont);
+			}
+		}	
+		return contents;
+	}	
 }

@@ -2,7 +2,9 @@ package com.webApp.movieRecommendationApp.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Genre {
@@ -58,6 +60,11 @@ public class Genre {
 	
 	@Column(columnDefinition="int(11) NOT NULL")
 	private Integer fantasy;
+	
+	/*@OneToOne(fetch = FetchType.LAZY,mappedBy="genre")
+	private Content content;
+	*/
+	
 	
 	
 

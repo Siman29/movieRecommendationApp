@@ -511,6 +511,7 @@
     	<section id="iq-suggested" class="s-margin">
     		<div class="container-fluid space">
     			<div class="row form-outline">
+    				<input type="hidden" ng-model="userId" name="userId" id="userId" th:value="${id}">
     				<input type="search" class="form-control" ng-model="search" name="search" placeholder="Search By Movie Name" onchange="showSearch()"/>
     			</div>
     		</div>
@@ -539,14 +540,20 @@
                                                 <div class="badge badge-secondary p-1 mr-2">{{s.runtime}}</div>
                                              </div>
                                             <div class="movie-time d-flex align-items-center my-2">
-                                                <span class="text-white">{{s.genre}}</span><br/>
+                                                <span class="text-white" ng-repeat="g in s.genre">
+                                                	<span>{{g}},</span>
+                                                </span><br/>
                                                 
                                             </div>
-                                            <div class="hover-buttons">
-                                                <span class="btn btn-hover iq-button">
-                                                    <i class="fa fa-play mr-1"></i>
-                                                    Play Now
-                                                </span>
+                                            <div class="hover-buttons" th:if = "${name} != null">
+                                            	<form action="addWatched" method="post">
+                                            		<input type="hidden" name="c_id" value="{{s.contentId}}" />
+                                            		<input type="hidden" name="u_id" th:value="${id}" />
+                                            		<button type="submit" class="btn btn-hover iq-button">
+                                                    	<i class="fa fa-play mr-1"></i>
+                                                    		Play Now
+                                                	</button>
+                                            	</form>   
                                             </div>
                                         </div>
                                         <div class="block-social-info">
@@ -594,242 +601,59 @@
                         <div class="favorite-contens">
                             <ul class="favorites-slider list-inline row p-0 mb-0">
                                 <!-- slide item 1 -->
-                                <li class="slide-item">
+                                <li class="slide-item" th:each="w: ${watched}">
                                     <div class="block-images position-relative">
                                         <div class="img-box">
-                                            <img th:src=@{/images/favorite/f1.jpg} class="img-fluid" alt="" />
+                                            <img th:src=@{${w.coverImg}} class="img-fluid image1" alt="" style="object-fit: cover;" />
                                         </div>
                                         <div class="block-description">
                                             <h6 class="iq-title">
-                                                <a th:href="@{#}"> Insidious </a>
+                                                <a th:href="@{#}" th:text="${w.movie}"> </a>
                                             </h6>
                                             <div class="movie-time d-flex align-items-center my-2">
-                                                <div class="badge badge-secondary p-1 mr-2">16+</div>
-                                                <span class="text-white">1h 43min</span>
+                                                <div class="badge badge-secondary p-1 mr-2" th:text = "${w.ratings}"></div>
+                                                <div class="badge badge-secondary p-1 mr-2" th:text = "${w.runtime}"></div>
+                                            </div>
+                                            <div class="movie-time d-flex align-items-center my-2">
+                                             
+                                                <span class="text-white" th:each="g: ${w.genre}">
+                                                	<span th:text="${g}"></span>,
+                                                </span><br/>
+                                               
                                             </div>
                                             <div class="hover-buttons">
-                                                <span class="btn btn-hover iq-button">
-                                                    <i class="fa fa-play mr-1"></i>
-                                                    Play Now
-                                                </span>
+                                            		<button type="submit" class="btn btn-hover iq-button">
+                                                    	<i class="fa fa-play mr-1"></i>
+                                                    		Continue
+                                                	</button>
                                             </div>
                                         </div>
                                         <div class="block-social-info">
                                             <ul class="list-inline p-0 m-0 music-play-lists">
-                                                <li class="share">
-                                                    <span><i class="fa fa-share-alt"></i></span>
-                                                    <div class="share-box">
+                                                <li th:if = "${w.hotstar} == Yes">
+                                                    <span><i>H</i></span>
+                                                    <!-- div class="share-box">
                                                         <div class="d-flex align-items-center">
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-share-alt"></i></a>
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-youtube"></i></a>
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-instagram"></i></a>
+                                                            <a th:href="@{#}" class="share-ico" th:if = "${bollywood.hotstar} == Yes"><i>H</i></a>
+                                                            <a th:href="@{#}" class="share-ico" th:if = "${bollywood.amazonPrime} == Yes"><i>A</i></a>
+                                                            <a th:href="@{#}" class="share-ico" th:if = "${bollywood.netflix} == Yes"><i>N</i></a>
+                                                            
                                                         </div>
-                                                    </div>
+                                                    </div-->
                                                 </li>
-                                                <li>
-                                                    <span><i class="fa fa-heart"></i></span>
-                                                    <span class="count-box">19+</span>
+                                                <li th:if = "${w.amazonPrime} == Yes">
+                                                    <span><i>A</i></span>
                                                 </li>
-                                                <li>
-                                                    <span><i class="fa fa-plus"></i></span>
+                                                <li th:if = "${w.netflix} == Yes">
+                                                    <span><i>N</i></span>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
-                                </li>
-                                <!-- slide item 2 -->
-                                <li class="slide-item">
-                                    <div class="block-images position-relative">
-                                        <div class="img-box">
-                                            <img th:src=@{/images/favorite/f2.jpg} class="img-fluid" alt="" />
-                                        </div>
-                                        <div class="block-description">
-                                            <h6 class="iq-title">
-                                                <a th:href="@{#}"> War </a>
-                                            </h6>
-                                            <div class="movie-time d-flex align-items-center my-2">
-                                                <div class="badge badge-secondary p-1 mr-2">12+</div>
-                                                <span class="text-white">2h 34min</span>
-                                            </div>
-                                            <div class="hover-buttons">
-                                                <span class="btn btn-hover iq-button">
-                                                    <i class="fa fa-play mr-1"></i>
-                                                    Play Now
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="block-social-info">
-                                            <ul class="list-inline p-0 m-0 music-play-lists">
-                                                <li class="share">
-                                                    <span><i class="fa fa-share-alt"></i></span>
-                                                    <div class="share-box">
-                                                        <div class="d-flex align-items-center">
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-share-alt"></i></a>
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-youtube"></i></a>
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-instagram"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span><i class="fa fa-heart"></i></span>
-                                                    <span class="count-box">58+</span>
-                                                </li>
-                                                <li>
-                                                    <span><i class="fa fa-plus"></i></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <!-- slide item 3 -->
-                                <li class="slide-item">
-                                    <div class="block-images position-relative">
-                                        <div class="img-box">
-                                            <img th:src=@{/images/favorite/f3.jpg} class="img-fluid" alt="" />
-                                        </div>
-                                        <div class="block-description">
-                                            <h6 class="iq-title">
-                                                <a th:href="@{#}"> Five Feet Apart </a>
-                                            </h6>
-                                            <div class="movie-time d-flex align-items-center my-2">
-                                                <div class="badge badge-secondary p-1 mr-2">18+</div>
-                                                <span class="text-white">2h 57min</span>
-                                            </div>
-                                            <div class="hover-buttons">
-                                                <span class="btn btn-hover iq-button">
-                                                    <i class="fa fa-play mr-1"></i>
-                                                    Play Now
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="block-social-info">
-                                            <ul class="list-inline p-0 m-0 music-play-lists">
-                                                <li class="share">
-                                                    <span><i class="fa fa-share-alt"></i></span>
-                                                    <div class="share-box">
-                                                        <div class="d-flex align-items-center">
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-share-alt"></i></a>
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-youtube"></i></a>
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-instagram"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span><i class="fa fa-heart"></i></span>
-                                                    <span class="count-box">19+</span>
-                                                </li>
-                                                <li>
-                                                    <span><i class="fa fa-plus"></i></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <!-- slide item 4 -->
-                                <li class="slide-item">
-                                    <div class="block-images position-relative">
-                                        <div class="img-box">
-                                            <img th:src=@{/images/favorite/f4.jpg} class="img-fluid" alt="" />
-                                        </div>
-                                        <div class="block-description">
-                                            <h6 class="iq-title">
-                                                <a th:href="@{#}"> Chhichore </a>
-                                            </h6>
-                                            <div class="movie-time d-flex align-items-center my-2">
-                                                <div class="badge badge-secondary p-1 mr-2">10+</div>
-                                                <span class="text-white">2h 23min</span>
-                                            </div>
-                                            <div class="hover-buttons">
-                                                <span class="btn btn-hover iq-button">
-                                                    <i class="fa fa-play mr-1"></i>
-                                                    Play Now
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="block-social-info">
-                                            <ul class="list-inline p-0 m-0 music-play-lists">
-                                                <li class="share">
-                                                    <span><i class="fa fa-share-alt"></i></span>
-                                                    <div class="share-box">
-                                                        <div class="d-flex align-items-center">
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-share-alt"></i></a>
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-youtube"></i></a>
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-instagram"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span><i class="fa fa-heart"></i></span>
-                                                    <span class="count-box">19+</span>
-                                                </li>
-                                                <li>
-                                                    <span><i class="fa fa-plus"></i></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <!-- slide item 5 -->
-                                <li class="slide-item">
-                                    <div class="block-images position-relative">
-                                        <div class="img-box">
-                                            <img th:src=@{/images/favorite/f5.jpg} class="img-fluid" alt="" />
-                                        </div>
-                                        <div class="block-description">
-                                            <h6 class="iq-title">
-                                                <a th:href="@{#}"> Doctor Strange </a>
-                                            </h6>
-                                            <div class="movie-time d-flex align-items-center my-2">
-                                                <div class="badge badge-secondary p-1 mr-2">12+</div>
-                                                <span class="text-white">1h 55min</span>
-                                            </div>
-                                            <div class="hover-buttons">
-                                                <span class="btn btn-hover iq-button">
-                                                    <i class="fa fa-play mr-1"></i>
-                                                    Play Now
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="block-social-info">
-                                            <ul class="list-inline p-0 m-0 music-play-lists">
-                                                <li class="share">
-                                                    <span><i class="fa fa-share-alt"></i></span>
-                                                    <div class="share-box">
-                                                        <div class="d-flex align-items-center">
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-share-alt"></i></a>
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-youtube"></i></a>
-                                                            <a th:href="@{#}" class="share-ico"><i
-                                                                    class="fa fa-instagram"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span><i class="fa fa-heart"></i></span>
-                                                    <span class="count-box">19+</span>
-                                                </li>
-                                                <li>
-                                                    <span><i class="fa fa-plus"></i></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
+                                </li>      
                             </ul>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -1303,14 +1127,19 @@
                                             </div>
                                             <div class="movie-time d-flex align-items-center my-2">
                                              
-                                                <span class="text-white" th:text="${bollywood.genre}"></span><br/>
-                                            
+												<span class="text-white" th:each="g: ${bollywood.genre}">
+                                                	<span th:text="${g}"></span>,
+                                                </span><br/>                                            
                                             </div>
-                                            <div class="hover-buttons">
-                                                <span class="btn btn-hover iq-button">
-                                                    <i class="fa fa-play mr-1"></i>
-                                                    Play Now
-                                                </span>
+                                            <div class="hover-buttons" th:if = "${name} != null">
+                                            	<form action="addWatched" method="post">
+                                            		<input type="hidden" name="c_id" th:value="${bollywood.contentId}" />
+                                            		<input type="hidden" name="u_id" th:value="${id}" />
+                                            		<button type="submit" class="btn btn-hover iq-button">
+                                                    	<i class="fa fa-play mr-1"></i>
+                                                    		Play Now
+                                                	</button>
+                                            	</form>   
                                             </div>
                                         </div>
                                         <div class="block-social-info">
@@ -1370,14 +1199,20 @@
                                             </div>
                                             <div class="movie-time d-flex align-items-center my-2">
                                              
-                                                <span class="text-white" th:text="${hollywood.genre}"></span><br/>
+                                                <span class="text-white" th:each="g: ${hollywood.genre}">
+                                                	<span th:text="${g}"></span>,
+                                                </span><br/>
                                                
                                             </div>
-                                            <div class="hover-buttons">
-                                                <span class="btn btn-hover iq-button">
-                                                    <i class="fa fa-play mr-1"></i>
-                                                    Play Now
-                                                </span>
+                                            <div class="hover-buttons" th:if = "${name} != null">
+                                            	<form action="addWatched" method="post">
+                                            		<input type="hidden" name="c_id" th:value="${hollywood.contentId}" />
+                                            		<input type="hidden" name="u_id" th:value="${id}" />
+                                            		<button type="submit" class="btn btn-hover iq-button">
+                                                    	<i class="fa fa-play mr-1"></i>
+                                                    		Play Now
+                                                	</button>
+                                            	</form>   
                                             </div>
                                         </div>
                                         <div class="block-social-info">
@@ -1436,14 +1271,21 @@
                                                 <div class="badge badge-secondary p-1 mr-2" th:text = "${tv.runtime}"></div>
                                              </div>
                                             <div class="movie-time d-flex align-items-center my-2">
-                                                <span class="text-white" th:text="${tv.genre}"></span><br/>
+                                                
+                                                <span class="text-white" th:each="g: ${tv.genre}">
+                                                	<span th:text="${g}"></span>,
+                                                </span><br/>
                                                 
                                             </div>
-                                            <div class="hover-buttons">
-                                                <span class="btn btn-hover iq-button">
-                                                    <i class="fa fa-play mr-1"></i>
-                                                    Play Now
-                                                </span>
+                                            <div class="hover-buttons" th:if = "${name} != null">
+                                            	<form action="addWatched" method="post">
+                                            		<input type="hidden" name="c_id" th:value="${tv.contentId}" />
+                                            		<input type="hidden" name="u_id" th:value="${id}" />
+                                            		<button type="submit" class="btn btn-hover iq-button">
+                                                    	<i class="fa fa-play mr-1"></i>
+                                                    		Play Now
+                                                	</button>
+                                            	</form>   
                                             </div>
                                         </div>
                                         <div class="block-social-info">

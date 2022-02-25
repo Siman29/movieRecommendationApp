@@ -37,7 +37,9 @@ public class Users {
 	private List<UsersWatch> watched;
 	
 	
-	public Users() {}
+	public Users() {
+		super();
+	}
 	
 	public Users(String firstName, String lastName, String mailId, Long phoneNo, String password) {
 		super();

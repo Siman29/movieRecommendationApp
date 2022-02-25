@@ -32,15 +32,22 @@ public class DeveloperRestController {
 		
 	
 	@GetMapping(path="/login/admin/users/all", produces= {"application/json"})
-	public List<Users> getAllUsers()
+	public List<UsersDto> getAllUsers()
 	{
-		return repo.findAll();
+		return service.getAllUsers();
 	}
 
 	@GetMapping(path="/login/admin/contents", produces= {"application/json"})
 	public List<CategoryContentAvailabilityDto> getAllContents()
 	{
 		List<CategoryContentAvailabilityDto> list = service.getAllContents();
+		return list;
+	}
+	
+	@GetMapping(path="/login/admin/contentsForUser/{userId}", produces= {"application/json"})
+	public List<CategoryContentAvailabilityDto> getAllContentsForUser(@PathVariable("userId") Integer userId)
+	{
+		List<CategoryContentAvailabilityDto> list = service.getAllContentsForUser(userId);
 		return list;
 	}
 	

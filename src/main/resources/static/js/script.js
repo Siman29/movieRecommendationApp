@@ -136,7 +136,8 @@ function validateEmail(mail) {
     }
 }
 
-function confirmPassword(password) {
+function confirmPassword(password)
+{
    var confirmPw = password.value;
    var id = password.id;
    var pw = document.getElementById("pw_signup");
@@ -156,6 +157,25 @@ function confirmPassword(password) {
    }
 }
 
+
+function checkGenre()
+{
+	var genres = document.getElementsByName("genre");
+	var count = 0;
+	for(let i=0;i<genres.length;i++)
+	{
+		if(genres[i].checked)
+		{
+			count = count + 1;
+		}
+	}
+	if(count==0)
+	{
+		alert("Check One or more Genres of the movie");
+		return false;
+	}
+	return true;
+}
 
 function showSearch(){
 	document.getElementById('searchItems').style.display = 'grid';

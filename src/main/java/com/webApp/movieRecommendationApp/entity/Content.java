@@ -46,11 +46,11 @@ public class Content {
 	@JoinColumn(name = "category_id")
 	private Category category;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name="availability_id")
 	private Availability availabilty;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name="genre_id")
 	private Genre genre;
 	
@@ -62,7 +62,6 @@ public class Content {
 	
 	public Content(Integer id, String movie, String year, String runtime,
 			String ratings, String description, String coverImg) {
-		super();
 		this.id = id;
 		this.movie = movie;
 		this.year = year;

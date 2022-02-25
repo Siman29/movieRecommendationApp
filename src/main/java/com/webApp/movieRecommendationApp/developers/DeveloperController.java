@@ -45,7 +45,7 @@ public class DeveloperController {
 		
 	
 	@PostMapping(path="/login/addContent")
-	public RedirectView addContent(HttpServletRequest request,Model m,@RequestParam List<String> genres) 
+	public RedirectView addContent(HttpServletRequest request,Model m,@RequestParam("genre") List<String> genres) 
 	{
 		Integer categoryId = Integer.parseInt(request.getParameter("category"));
 		String movie = request.getParameter("movie");

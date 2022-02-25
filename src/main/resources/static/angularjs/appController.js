@@ -33,7 +33,7 @@
             var url = "/login/admin/users/all";
             var usersURL = $http.get(url);
             usersURL.then(function(response) {
-                vm.columns = ["User Name", "Email ID", "Phone Number", "Password","Delete User"];
+                vm.columns = ["User Name", "Email ID", "Phone Number", "Content Watched","Delete User"];
                 vm.no_of_columns = vm.columns.length;
                 vm.contents = response.data;
                 console.log('got all users');
@@ -55,7 +55,7 @@
             var url = "/login/admin/user/" + id;
             var userURL = $http.get(url);
             userURL.then(function(response) {
-                vm.usersColumns = ["User Name", "Email ID", "Phone Number", "Password"]
+                vm.usersColumns = ["User Name", "Email ID", "Phone Number", "Content Watched"]
                 vm.users = response.data;
             })
         }
@@ -64,7 +64,7 @@
             var url = "/login/admin/remove/user/" + id;
             var userURL = $http.get(url);
             userURL.then(function(response) {
-                vm.columns = ["User Name", "Email ID", "Phone Number", "Password","Delete User"];
+                vm.columns = ["User Name", "Email ID", "Phone Number", "Content Watched","Delete User"];
                 vm.no_of_columns = vm.columns.length;
                 vm.contents = response.data;
                 console.log('got all users');

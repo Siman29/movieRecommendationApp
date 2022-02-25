@@ -33,10 +33,10 @@ public class AppController {
 		
 	@Autowired
 	AppAvailabilityRepo availabilityRepo;
-		
 	
-	private static String loginVal = "no";
-	private static String name = null;
+	@Autowired
+	AppUsersWatchedRepo usersWatchedRepo;
+		
 	
 	
 	@Autowired
@@ -45,46 +45,68 @@ public class AppController {
 	
 	
 	@GetMapping("/")
-	public String index(Model m)
+	public String index(HttpServletRequest request,Model m)
 	{ 
-		m = service.getContents(m);
-		if(loginVal.equals("yes"))
+		if(request.getSession().getAttribute("loginVal")!=null)
 		{
+			String name = request.getSession().getAttribute("name").toString();
 			if(name.equals("admin"))
 			{
 				return "redirect:admin";
 			}
 			else 
 			{
-				return "redirect:" + name;
+				Integer id = (Integer) request.getSession().getAttribute("id");
+				return "redirect:" + id;
 			}
 		}
+		m = service.getContents(m);
 		return "home";
 	}
 	
 	@GetMapping("/admin")
-	public String admin(Model m)
+	public String admin(HttpServletRequest request,Model m)
 	{ 
-		m = service.getContents(m);
-		if(loginVal.equals("yes"))
+		if(request.getSession().getAttribute("loginVal")!=null)
 		{
-			m.addAttribute("name","admin");
+			String name = request.getSession().getAttribute("name").toString();
+			if(name.equals("admin"))
+			{
+				m.addAttribute("name",name);
+			}
+			else
+			{
+				Integer id = (Integer) request.getSession().getAttribute("id");
+				return "redirect:" + id;
+			}
 		}else {
-			return "redirect: ";
+			return "redirect:";
 		}		
 		return "developerHome";
 	}
 	
-	@GetMapping(path = "/{name}")
-	public String getUser(Model m,@PathVariable("name") String name)
+	@GetMapping(path = "/{id}")
+	public String getUser(HttpServletRequest request,Model m,@PathVariable("id") Integer id)
 	{ 
-		m = service.getContents(m);
-		if(loginVal.equals("yes"))
+		if(request.getSession().getAttribute("loginVal")!=null)
 		{
-			m.addAttribute("name",name);
-		}else {
-			return "redirect: ";
+			String name = request.getSession().getAttribute("name").toString();
+			if(name.equals("admin"))
+			{
+				return "redirect:admin";
+			}
+			else
+			{
+				m.addAttribute("name",name);
+				m.addAttribute("id",id);
+			}
 		}
+		else
+		{
+			return "redirect:";
+		}
+		m = service.getContentsForUser(m,id);
+		m.addAttribute("watched", service.getWatched(id));
 		return "home";
 	}
 	
@@ -94,10 +116,12 @@ public class AppController {
 	{
 			String email = request.getParameter("uname_login");
 			String pw = request.getParameter("pw_login");
+			String name;
 			if(email.equals("admin@admin.com") && pw.equals("admin"))
 			{
-				loginVal = "yes";
-				name = "admin";
+				session = request.getSession();
+				session.setAttribute("name", "admin");
+				session.setAttribute("loginVal", "yes");
 				return new RedirectView("/admin");
 			}
 			Users user = repo.findByMailId(email);
@@ -106,12 +130,12 @@ public class AppController {
 				if(service.checksPassword(encryptPw, pw))
 				{
 					name = user.getFirstName() + " " + user.getLastName();
-					m = service.getContents(m);
-					m.addAttribute("name", name);
-					m.addAttribute("msg","Login Successful..WELCOME " + name);
-					System.out.println("Getting executed");
-					loginVal = "yes";
-					return new RedirectView("/" + name);
+					Integer id = user.getId();
+					session = request.getSession();
+					session.setAttribute("name", name);
+					session.setAttribute("id", id);
+					session.setAttribute("loginVal", "yes");
+					return new RedirectView("/" + id);
 				}
 			}
 		return new RedirectView("/");
@@ -121,6 +145,7 @@ public class AppController {
 	public RedirectView signup(HttpSession session,HttpServletRequest request,Model m,@RequestParam("fname_signup") String first_name,@RequestParam("lname_signup") String last_name,@RequestParam("email_signup") String email,@RequestParam("phone_signup") Long phoneNo,@RequestParam("pw_signup") String pw)
 	{
 		String encryptPw = service.encryptPassword(pw);
+		String name;
 		Users user = new Users(first_name,last_name,email,phoneNo,encryptPw);
 		if(repo.findLastUserId()==null)
 		{
@@ -134,12 +159,12 @@ public class AppController {
 			if(repo.save(user)!=null)
 			{
 				name = user.getFirstName() + " " + user.getLastName();
-				m = service.getContents(m);
-				m.addAttribute("name", name);
-				m.addAttribute("msg","Sign Up Successful..WELCOME " + name);
-				System.out.println("Getting executed");
-				loginVal = "yes";
-				return new RedirectView("/" + name);
+				Integer id = user.getId();
+				session = request.getSession();
+				session.setAttribute("name", name);
+				session.setAttribute("id", id);
+				session.setAttribute("loginVal", "yes");
+				return new RedirectView("/" + id);
 			}
 		}
 		return new RedirectView("/");
@@ -148,12 +173,34 @@ public class AppController {
 	@GetMapping("/logout-success")
 	public RedirectView logout(HttpSession session, HttpServletRequest request,Model m)
 	{
+		request.getSession().removeAttribute("loginVal");
+		request.getSession().removeAttribute("name");
+		request.getSession().removeAttribute("id");
+		request.getSession().invalidate();
 		m = service.getContents(m);
 		m.addAttribute("name",null);
 		m.addAttribute("msg","GoodBye...Have a nice day ");
-		loginVal = "no";
-		name = null;
+		
 		return new RedirectView("/");
+	}
+	
+	@PostMapping("addWatched")
+	public RedirectView addWatched(HttpServletRequest request)
+	{
+		Integer contentId = Integer.parseInt(request.getParameter("c_id"));
+		Integer id;
+		Integer userId = Integer.parseInt(request.getParameter("u_id"));
+		if(usersWatchedRepo.findLastId()==null)
+		{
+			id = 1;
+		}else {
+			id = usersWatchedRepo.findLastId() +  1;
+		}
+		UsersWatch watched = new UsersWatch(id);
+		watched.setContent(contentRepo.getById(contentId));
+		watched.setUser(repo.getById(userId));
+		usersWatchedRepo.save(watched);
+		return new RedirectView("/" + userId);
 	}
 	
 	
