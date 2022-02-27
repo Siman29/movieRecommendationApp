@@ -58,7 +58,9 @@ public class Content {
 	private List<UsersWatch> usersWatched;
 	
 	
-	public Content() {}
+	public Content() {
+		super();
+	}
 	
 	public Content(Integer id, String movie, String year, String runtime,
 			String ratings, String description, String coverImg) {

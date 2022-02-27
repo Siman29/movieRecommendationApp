@@ -186,7 +186,7 @@
                         	</p>
                         </td>
                         <td>
-                        	<button class="btn btn-primary" ng-click="vm.removeUser(c.id)">Delete</button>
+                        	<button class="btn btn-primary" ng-click="vm.removeUser(c.userId)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -247,7 +247,7 @@
                                 <input type="text" name="runtime" id="runtime" class="form-control input" placeholder="Enter Run Time of the movie(in minutes)" onchange="checkRunTime(this)" required>
                             </div>
                             <div class="form-group">
-                            	<label>Genre</label>
+                            	<label style="color: black;">Genre</label>
                             	<div class="form-check">
                             		<input type="checkbox" class="form-check-input small-check" name="genre" value="comedy"/>
                             		<label class="form-check-label">comedy</label>
@@ -398,7 +398,9 @@
                             	<div>Runtime: {{vm.content.runtime}}</div>
                             </div>
                             <div class="form-group" style="color: black;">
-                            	<div>Genre: {{vm.content.genre}}</div>
+                            	<div>Genre: <span ng-repeat="g in vm.content.genre">
+                            		{{g}},
+                            	</span>{{vm.content.genre}}</div>
                             </div>
                             <div class="form-group">
                             	<label style="color: black;">Edit Rating: </label>

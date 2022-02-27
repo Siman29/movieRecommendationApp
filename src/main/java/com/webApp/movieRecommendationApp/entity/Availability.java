@@ -2,10 +2,7 @@ package com.webApp.movieRecommendationApp.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Availability {
@@ -28,6 +25,7 @@ public class Availability {
 		super();
 	}
 	public Availability(Integer id, String hotstar, String amazonPrime, String netflix) {
+		super();
 		this.id = id;
 		this.hotstar = hotstar;
 		this.amazonPrime = amazonPrime;

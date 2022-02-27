@@ -47,10 +47,8 @@ function checkRunTime(ele) {
 	var val = ele.value;
 	var id = ele.id;
 	var e = document.getElementById(id);
-	alert(val);
 	if (val.trim() != "" && !isNaN(val))
 	{
-		alert("correct");
 		e.style.borderBottomColor = "rgb(7, 6, 104)";
         e.style.borderRightColor = "rgb(7, 6, 104)";	
 	}else{

@@ -61,6 +61,7 @@ public class AppController {
 			}
 		}
 		m = service.getContents(m);
+		request.getSession().invalidate();
 		return "home";
 	}
 	

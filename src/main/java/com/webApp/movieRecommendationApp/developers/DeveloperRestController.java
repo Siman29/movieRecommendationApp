@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.webApp.movieRecommendationApp.repo.*;
 import com.webApp.movieRecommendationApp.users.AppService;
-import com.webApp.movieRecommendationApp.entity.*;
 import com.webApp.movieRecommendationApp.dto.*;
 
 @RestController
@@ -38,38 +37,38 @@ public class DeveloperRestController {
 	}
 
 	@GetMapping(path="/login/admin/contents", produces= {"application/json"})
-	public List<CategoryContentAvailabilityDto> getAllContents()
+	public List<ContentDto> getAllContents()
 	{
-		List<CategoryContentAvailabilityDto> list = service.getAllContents();
+		List<ContentDto> list = service.getAllContents();
 		return list;
 	}
 	
 	@GetMapping(path="/login/admin/contentsForUser/{userId}", produces= {"application/json"})
-	public List<CategoryContentAvailabilityDto> getAllContentsForUser(@PathVariable("userId") Integer userId)
+	public List<ContentDto> getAllContentsForUser(@PathVariable("userId") Integer userId)
 	{
-		List<CategoryContentAvailabilityDto> list = service.getAllContentsForUser(userId);
+		List<ContentDto> list = service.getAllContentsForUser(userId);
 		return list;
 	}
 	
 	@GetMapping(path="/login/admin/get/content/{content_id}", produces = {"application/json"})
-	public CategoryContentAvailabilityDto getContent(@PathVariable("content_id") Integer id)
+	public ContentDto getContent(@PathVariable("content_id") Integer id)
 	{
 		return service.getContent(id);
 	}
 	
 	
 	@GetMapping(path="/login/admin/remove/content/{content_id}", produces = {"application/json"})
-	public List<CategoryContentAvailabilityDto> removeContent(@PathVariable("content_id") Integer id)
+	public List<ContentDto> removeContent(@PathVariable("content_id") Integer id)
 	{
 		contentRepo.deleteById(id);
 		return service.getAllContents();
 	}
 	
 	@GetMapping(path = "/login/admin/remove/user/{user_id}", produces = {"application/json"})
-	public List<Users> removeUser(@PathVariable("user_id") Integer id)
+	public List<UsersDto> removeUser(@PathVariable("user_id") Integer id)
 	{
 		repo.deleteById(id);
-		return repo.findAll();
+		return service.getAllUsers();
 	}
 		
 }
