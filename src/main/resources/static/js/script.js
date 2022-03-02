@@ -27,7 +27,7 @@ function checkRating(ele) {
 			}
 			else
 			{
-				alert("Please enter a 10 digit mobile number");
+				alert("Please enter a rating out of 10");
         		e.value = "";
         		e.style.borderBottomColor = "red";
         		e.style.borderRightColor = "red";
@@ -35,7 +35,7 @@ function checkRating(ele) {
         	}	
 	}else
 	{
-			alert("Please enter a 10 digit mobile number");
+			alert("Please enter a rating out of 10");
         	e.value = "";
         	e.style.borderBottomColor = "red";
         	e.style.borderRightColor = "red";

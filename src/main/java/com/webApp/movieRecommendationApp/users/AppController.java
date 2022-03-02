@@ -191,13 +191,15 @@ public class AppController {
 		Integer contentId = Integer.parseInt(request.getParameter("c_id"));
 		Integer id;
 		Integer userId = Integer.parseInt(request.getParameter("u_id"));
+		Float rating = Float.parseFloat(request.getParameter("user_rating"));
+		String comments = request.getParameter("user_comments");
 		if(usersWatchedRepo.findLastId()==null)
 		{
 			id = 1;
 		}else {
 			id = usersWatchedRepo.findLastId() +  1;
 		}
-		UsersWatch watched = new UsersWatch(id);
+		UsersWatch watched = new UsersWatch(id,rating,comments);
 		watched.setContent(contentRepo.getById(contentId));
 		watched.setUser(repo.getById(userId));
 		usersWatchedRepo.save(watched);

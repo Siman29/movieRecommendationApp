@@ -9,10 +9,13 @@
 
     function userAppController($scope,$http) {
         var vm = this;
+        vm.id = 0;
         vm.contents = [];
+        vm.content = [];
         vm.getAllContents = getAllContents;
+       	vm.getContent = getContent;
         var userId = document.getElementById("userId").value;
-        console.log(userId);
+        //console.log(userId);
         init();
 
         function init() {
@@ -33,6 +36,16 @@
             contentsURL.then(function(response) {
                 vm.contents = response.data;
             })
-       }    
+       } 
+       
+       
+       function getContent(ele){
+       		console.log(ele);
+       		var id = ele.currentTarget.id;
+       		console.log(id);
+       		vm.id = id;
+            
+        }
+           
 	}
 })();
