@@ -89,6 +89,7 @@ public class AppController {
 	@GetMapping(path = "/{id}")
 	public String getUser(HttpServletRequest request,Model m,@PathVariable("id") Integer id)
 	{ 
+		int flag = 0;
 		if(request.getSession().getAttribute("loginVal")!=null)
 		{
 			String name = request.getSession().getAttribute("name").toString();
@@ -100,6 +101,7 @@ public class AppController {
 			{
 				m.addAttribute("name",name);
 				m.addAttribute("id",id);
+				m.addAttribute("msg","Log In Successful");
 			}
 		}
 		else
@@ -108,6 +110,7 @@ public class AppController {
 		}
 		m = service.getContentsForUser(m,id);
 		m.addAttribute("watched", service.getWatched(id));
+		m.addAttribute("recommended",service.getRecommendationForUser(id));
 		return "home";
 	}
 	
@@ -143,10 +146,14 @@ public class AppController {
 	}
 	
 	@PostMapping("/signup")
-	public RedirectView signup(HttpSession session,HttpServletRequest request,Model m,@RequestParam("fname_signup") String first_name,@RequestParam("lname_signup") String last_name,@RequestParam("email_signup") String email,@RequestParam("phone_signup") Long phoneNo,@RequestParam("pw_signup") String pw)
+	public RedirectView signup(HttpSession session,HttpServletRequest request,Model m,
+			@RequestParam("fname_signup") String first_name,
+			@RequestParam("lname_signup") String last_name,
+			@RequestParam("email_signup") String email,
+			@RequestParam("phone_signup") Long phoneNo,
+			@RequestParam("pw_signup") String pw)
 	{
 		String encryptPw = service.encryptPassword(pw);
-		String name;
 		Users user = new Users(first_name,last_name,email,phoneNo,encryptPw);
 		if(repo.findLastUserId()==null)
 		{
@@ -157,16 +164,7 @@ public class AppController {
 		}
 		if(repo.findByMailId(user.getMailId())==null) 
 		{
-			if(repo.save(user)!=null)
-			{
-				name = user.getFirstName() + " " + user.getLastName();
-				Integer id = user.getId();
-				session = request.getSession();
-				session.setAttribute("name", name);
-				session.setAttribute("id", id);
-				session.setAttribute("loginVal", "yes");
-				return new RedirectView("/" + id);
-			}
+			repo.save(user);
 		}
 		return new RedirectView("/");
 	}

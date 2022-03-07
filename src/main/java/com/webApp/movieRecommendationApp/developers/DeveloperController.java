@@ -45,7 +45,8 @@ public class DeveloperController {
 		
 	
 	@PostMapping(path="/login/addContent")
-	public RedirectView addContent(HttpServletRequest request,Model m,@RequestParam("genre") List<String> genres) 
+	public RedirectView addContent(HttpServletRequest request,Model m
+			,@RequestParam("genre") List<String> genres) 
 	{
 		Integer categoryId = Integer.parseInt(request.getParameter("category"));
 		String movie = request.getParameter("movie");
@@ -57,7 +58,6 @@ public class DeveloperController {
 		String hotstar = request.getParameter("hotstar");
 		String amazonPrime = request.getParameter("amazonPrime");
 		String netflix = request.getParameter("netflix");
-		//content
 		
 		if(contentRepo.findByMovie(movie).isEmpty())
 		{
@@ -72,13 +72,9 @@ public class DeveloperController {
 			Genre genre = service.getGenreObj(genreId,genres); //to be done
 			content.setGenre(genre);
 			
-			
 			Category category = categoryRepo.getById(categoryId);
 			content.setCategory(category);
-			contentRepo.save(content);
-
-			
-			
+			contentRepo.save(content);		
 		}
 		
 		m.addAttribute("name","admin");

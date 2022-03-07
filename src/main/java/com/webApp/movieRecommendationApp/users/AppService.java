@@ -122,6 +122,7 @@ public class AppService {
 		}
 		return false;
 	}
+	
 	public final List<ContentDto> getAllContents()
 	{
 		List<ContentDto> contents = new ArrayList<>();
@@ -143,7 +144,8 @@ public class AppService {
 			String hotstar = a.getHotstar();
 			String amazonPrime = a.getAmazonPrime();
 			String netflix =a.getNetflix();
-			contents.add(new ContentDto(contentId,categoryName,movie,year,runtime,genre,ratings,description,coverImg,hotstar,amazonPrime,netflix));	
+			contents.add(new ContentDto(contentId,categoryName,movie,year,
+					runtime,genre,ratings,description,coverImg,hotstar,amazonPrime,netflix));	
 		}
 		
 		return contents;
@@ -205,7 +207,8 @@ public class AppService {
 		String hotstar = a.getHotstar();
 		String amazonPrime = a.getAmazonPrime();
 		String netflix = a.getNetflix();
-		content = new ContentDto(contentId,categoryName,movie,year,runtime,genre,ratings,description,coverImg,hotstar,amazonPrime,netflix);	
+		content = new ContentDto(contentId,categoryName,movie,year,
+				runtime,genre,ratings,description,coverImg,hotstar,amazonPrime,netflix);	
 		
 		return content;
 	}
@@ -283,7 +286,8 @@ public class AppService {
 			{
 				watched.add(usersWatched.get(j).getContent().getMovie());
 			}
-			usersDto.add(new UsersDto(u.getId(),u.getFirstName(),u.getLastName(),u.getMailId(),u.getPhoneNo(),u.getPassword(),watched));
+			usersDto.add(new UsersDto(u.getId(),u.getFirstName(),u.getLastName(),
+					u.getMailId(),u.getPhoneNo(),u.getPassword(),watched));
 		}
 		return usersDto;
 	}
@@ -338,4 +342,40 @@ public class AppService {
 		}	
 		return contents;
 	}	
+	public final List<ContentDto> getRecommendationForUser(Integer userId)
+	{
+		int i,j;
+		float maxRating;
+		ContentDto content;
+		UsersWatch watch;
+		List<String> genres = new ArrayList<>();
+		List<ContentDto> contents = getAllContentsForUser(userId);
+		List<UsersWatch> watched = usersWatchedRepo.findByUserId(userId);
+		List<ContentDto> recommended = null;
+		if(watched.size()>0)
+		{
+			recommended = new ArrayList<>();
+			maxRating = watched.get(0).getRating();
+			for(i=0;i<watched.size();i++)
+			{
+				if(watched.get(i).getRating()>=maxRating)
+				{
+					watch = watched.get(i);
+					maxRating = watch.getRating();
+					content = getContent(watch.getContent().getId());
+					genres =  content.getGenre();
+				}
+			}
+			for(i=0;i<contents.size();i++)
+			{
+				List<String> genre = contents.get(i).getGenre();
+				if(genre.equals(genres) && !watched.contains(genre))
+				{
+					recommended.add(contents.get(i));
+				}
+			}
+		}
+		return recommended;
+	}
+	
 }

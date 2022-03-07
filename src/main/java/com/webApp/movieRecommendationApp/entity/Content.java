@@ -16,14 +16,10 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Content {
-	
-	
-
 	@Id
 	@Column(columnDefinition = "int(11) NOT NULL")
 	private Integer id;
-	
-	
+
 	@Column(columnDefinition="varchar(200) NOT NULL")
 	private String movie;
 	

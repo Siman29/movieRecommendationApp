@@ -13,10 +13,8 @@ public class UsersDto {
 	private String password;
 	private List<String> watched;
 	
-	
-	
-	
-	public UsersDto(Integer userId, String firstName, String lastName, String mailId, Long phoneNo, String password,
+	public UsersDto(Integer userId, String firstName, String lastName, String mailId, Long phoneNo,
+			String password,
 			List<String> watched) {
 		super();
 		this.userId = userId;
@@ -27,6 +25,7 @@ public class UsersDto {
 		this.password = password;
 		this.watched = watched;
 	}
+	
 	public Integer getUserId() {
 		return userId;
 	}

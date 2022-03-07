@@ -17,16 +17,14 @@ public class ContentDto {
 	private String amazonPrime;
 	private String netflix;
 	
-	
-
 	public ContentDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
 	public ContentDto(Integer contentId, String categoryName, String movie, String year, String runtime,
-			List<String> genre, String ratings, String description, String coverImg, String hotstar, String amazonPrime,
-			String netflix) {
+			List<String> genre, String ratings, String description, String coverImg, 
+			String hotstar, String amazonPrime,String netflix) {
 		super();
 		this.contentId = contentId;
 		this.categoryName = categoryName;
