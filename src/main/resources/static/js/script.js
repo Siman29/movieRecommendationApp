@@ -27,7 +27,7 @@ function checkRating(ele) {
 			}
 			else
 			{
-				alert("Please enter a 10 digit mobile number");
+				alert("Please enter a rating out of 10");
         		e.value = "";
         		e.style.borderBottomColor = "red";
         		e.style.borderRightColor = "red";
@@ -35,7 +35,7 @@ function checkRating(ele) {
         	}	
 	}else
 	{
-			alert("Please enter a 10 digit mobile number");
+			alert("Please enter a rating out of 10");
         	e.value = "";
         	e.style.borderBottomColor = "red";
         	e.style.borderRightColor = "red";
@@ -47,10 +47,8 @@ function checkRunTime(ele) {
 	var val = ele.value;
 	var id = ele.id;
 	var e = document.getElementById(id);
-	alert(val);
 	if (val.trim() != "" && !isNaN(val))
 	{
-		alert("correct");
 		e.style.borderBottomColor = "rgb(7, 6, 104)";
         e.style.borderRightColor = "rgb(7, 6, 104)";	
 	}else{

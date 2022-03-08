@@ -2,7 +2,7 @@ package com.webApp.movieRecommendationApp.dto;
 
 import java.util.List;
 
-public class CategoryContentAvailabilityDto {
+public class ContentDto {
 	
 	private Integer contentId;
 	private String categoryName;
@@ -17,11 +17,14 @@ public class CategoryContentAvailabilityDto {
 	private String amazonPrime;
 	private String netflix;
 	
+	public ContentDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
-	
-	public CategoryContentAvailabilityDto(Integer contentId, String categoryName, String movie, String year,
-			String runtime, List<String> genre, String ratings, String description, String coverImg, String hotstar,
-			String amazonPrime, String netflix) {
+	public ContentDto(Integer contentId, String categoryName, String movie, String year, String runtime,
+			List<String> genre, String ratings, String description, String coverImg, 
+			String hotstar, String amazonPrime,String netflix) {
 		super();
 		this.contentId = contentId;
 		this.categoryName = categoryName;

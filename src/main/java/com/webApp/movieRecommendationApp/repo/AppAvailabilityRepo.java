@@ -13,10 +13,7 @@ public interface AppAvailabilityRepo extends JpaRepository<Availability, Integer
 	
 	@Query("SELECT MAX(id) FROM Availability")
 	public Integer findLastAvailabilityId();
-	
-	@Query("SELECT id FROM Availability WHERE contentId = ?1")
-	public Integer findByContentId(Integer id);
-	
+
 	@Transactional
 	@Modifying
 	@Query("UPDATE Availability SET hotstar=?2,amazonPrime=?3,netflix=?4 WHERE id=?1")
